@@ -1,6 +1,9 @@
 import time
 import redis
 from flask import Flask
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
 
 app = Flask(__name__)
 cache = redis.Redis(host='redis', port=6379)
@@ -19,5 +22,12 @@ def get_hit_count():
 
 @app.route('/')
 def hello():
-    count = get_hit_count()
-    return f'Hello World! I have been seen {count} times.\n'
+
+    driver = webdriver.Chrome(
+        service=ChromeService(
+            ChromeDriverManager().install()
+        )
+    )
+    driver.get("https://www.idealista.pt/")
+    driver.quit()
+    return f'Hello World! I have been seen X times.\n'

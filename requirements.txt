@@ -1,2 +1,4 @@
 flask
 redis
+selenium
+webdriver_manager
